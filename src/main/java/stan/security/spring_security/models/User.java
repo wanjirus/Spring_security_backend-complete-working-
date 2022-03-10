@@ -1,31 +1,53 @@
 package stan.security.spring_security.models;
 
+import lombok.Data;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
+@Data
 @Table(	name = "users",
         uniqueConstraints = {
                 @UniqueConstraint(columnNames = "username"),
                 @UniqueConstraint(columnNames = "email")
         })
+
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
+    private Store store;
+
+    @NotBlank
+    @Size(max = 20)
+    private String firstname;
+
+    @NotBlank
+    @Size(max = 20)
+    private String secondname;
+
+
     @NotBlank
     @Size(max = 20)
     private String username;
+
 
     @NotBlank
     @Size(max = 50)
     @Email
     private String email;
+
+    @NotBlank
+    @Size(min = 3, max = 20)
+    private String location;
 
     @NotBlank
     @Size(max = 120)
@@ -40,49 +62,13 @@ public class User {
     public User() {
     }
 
-    public User(String username, String email, String password) {
+    public User(String firstname, String secondname,String location, String username, String email, String password) {
+        this.firstname = firstname;
+        this.secondname = secondname;
         this.username = username;
         this.email = email;
         this.password = password;
+        this.location = location;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Set<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
-    }
 }

@@ -1,4 +1,4 @@
-package com.sunflash.sunappointment.exceptions;
+package stan.security.spring_security.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

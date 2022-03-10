@@ -15,7 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import stan.security.spring_security.security.jwt.AuthEntryPointJwt;
 import stan.security.spring_security.security.jwt.AuthTokenFilter;
-import stan.security.spring_security.services.UserDetailsServiceImpl;
+import stan.security.spring_security.services.auth.UserDetailsServiceImpl;
 
 @Configuration
 @EnableWebSecurity

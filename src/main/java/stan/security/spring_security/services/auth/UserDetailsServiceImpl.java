@@ -1,4 +1,4 @@
-package stan.security.spring_security.services;
+package stan.security.spring_security.services.auth;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import stan.security.spring_security.models.User;
 import stan.security.spring_security.repository.UserRepository;
+import stan.security.spring_security.services.auth.UserDetailsImpl;
 
 import javax.transaction.Transactional;
 

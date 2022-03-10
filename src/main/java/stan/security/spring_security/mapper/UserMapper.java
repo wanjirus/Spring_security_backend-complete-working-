@@ -1,23 +1,22 @@
-package com.sunflash.sunappointment.mapper;
+package stan.security.spring_security.mapper;
 
-import com.sunflash.sunappointment.entities.auth.Users;
-import com.sunflash.sunappointment.model.UserDTO;
 import org.mapstruct.Mapper;
+import stan.security.spring_security.DTO.UserDTO;
+import stan.security.spring_security.models.User;
 
 import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {
 
-    List<UserDTO> toUserDtoList(List<Users> users);
+    List<UserDTO> toUserDtoList(List<User> users);
 
-    default UserDTO toUserDTO(Users users){
+    default UserDTO toUserDTO(User users){
         UserDTO userInfoDTO = new UserDTO();
 
         userInfoDTO.setId(users.getId());
-        userInfoDTO.setFullName(users.getFirstname() + " " + users.getLastname());
+        userInfoDTO.setFullName(users.getFirstname() + " " + users.getSecondname());
         userInfoDTO.setEmail(users.getEmail());
-        userInfoDTO.setPhoneNumber(users.getPhoneNumber());
         userInfoDTO.setUsername(users.getUsername());
         userInfoDTO.setPassword(users.getPassword());
 

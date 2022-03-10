@@ -1,16 +1,13 @@
-package com.sunflash.sunappointment.model;
+package stan.security.spring_security.DTO;
 
 import lombok.Data;
 
 @Data
-public class JobDTO {
+public class FoodDTO {
     private Long id;
-    private UserDTO users;
-    private String jobCategory;
-    private String jobName;
-    private String jobCost;
-    private String jobDuration;
-    private String bufferDuration;
-    private Boolean privateJob;
-    private Boolean videoMeeting;
+    private StoreDTO storeDTO;
+    private String foodName;
+    private String location;
+    private String price;
+    private String quantity;
 }

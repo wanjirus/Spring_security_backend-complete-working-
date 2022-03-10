@@ -19,7 +19,7 @@ import stan.security.spring_security.payload.response.MessageResponse;
 import stan.security.spring_security.repository.RoleRepository;
 import stan.security.spring_security.repository.UserRepository;
 import stan.security.spring_security.security.jwt.JwtUtils;
-import stan.security.spring_security.services.UserDetailsImpl;
+import stan.security.spring_security.services.auth.UserDetailsImpl;
 
 import javax.validation.Valid;
 import java.util.HashSet;
@@ -82,32 +82,36 @@ public class AuthController {
         }
 
         // Create new user's account
-        User user = new User(signUpRequest.getUsername(),
+        User user = new User(
+                signUpRequest.getFirstname(),
+                signUpRequest.getLastname(),
+                signUpRequest.getUsername(),
                 signUpRequest.getEmail(),
+                signUpRequest.getLocation(),
                 encoder.encode(signUpRequest.getPassword()));
 
         Set<String> strRoles = signUpRequest.getRole();
         Set<Role> roles = new HashSet<>();
 
         if (strRoles == null) {
-            Role userRole = roleRepository.findByName(ERole.ROLE_USER)
+            Role userRole = roleRepository.findByName(ERole.ROLE_COMMUNITY)
                     .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
             roles.add(userRole);
         } else {
             strRoles.forEach(role -> {
                 switch (role) {
-                    case "admin" -> {
-                        Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
+                    case "member" -> {
+                        Role adminRole = roleRepository.findByName(ERole.ROLE_COMMUNITY)
                                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
                         roles.add(adminRole);
                     }
-                    case "pm" -> {
-                        Role modRole = roleRepository.findByName(ERole.ROLE_PM)
-                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                        roles.add(modRole);
-                    }
+//                    case "FoodStore" -> {
+//                        Role modRole = roleRepository.findByName(ERole.ROLE_FOODSTORE)
+//                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+//                        roles.add(modRole);
+//                    }
                     default -> {
-                        Role userRole = roleRepository.findByName(ERole.ROLE_USER)
+                        Role userRole = roleRepository.findByName(ERole.ROLE_FOODSTORE)
                                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
                         roles.add(userRole);
                     }

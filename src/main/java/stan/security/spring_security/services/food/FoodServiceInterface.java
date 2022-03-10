@@ -1,20 +1,19 @@
-package com.sunflash.sunappointment.service.job;
+package stan.security.spring_security.services.food;
 
-import com.sunflash.sunappointment.model.JobDTO;
-import com.sunflash.sunappointment.model.StaffDTO;
+import stan.security.spring_security.DTO.FoodDTO;
 
 import java.util.List;
+
 /**
  * Author::Stanley
  * Since
  * Version 1.0.0
  */
-public interface JobServiceInterface {
-    public JobDTO findJobById(long jobId);
+public interface FoodServiceInterface {
 
-    public JobDTO createNewJob(long staffId,  JobDTO jobDTO);
+    public FoodDTO createNewFood(long staffId,  FoodDTO foodDTO);
 
-    public List<JobDTO> findJobByUserId(long userId);
+    public List<FoodDTO> findFoodByStoreId(long storeId);
 
 
 

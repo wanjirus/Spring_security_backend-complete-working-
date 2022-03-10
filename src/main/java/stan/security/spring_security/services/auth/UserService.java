@@ -1,19 +1,15 @@
-package com.sunflash.sunappointment.service.auth;
+package stan.security.spring_security.services.auth;
 
-
-import com.sunflash.sunappointment.entities.auth.Role;
-import com.sunflash.sunappointment.entities.auth.RoleName;
-import com.sunflash.sunappointment.entities.auth.Users;
-import com.sunflash.sunappointment.model.RegisterDTO;
-import com.sunflash.sunappointment.repositories.UserRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import stan.security.spring_security.exceptions.ResourceNotFoundException;
+import stan.security.spring_security.models.User;
+import stan.security.spring_security.repository.UserRepository;
 
 import javax.validation.Valid;
-import java.util.*;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -24,13 +20,13 @@ public class UserService {
 
     // Get All Users
     @Transactional
-    public List<Users> getAllUsers() {
+    public List<User> getAllUsers() {
         return userRepository.findAll();
     }
 
     // Find User By id.
     @Transactional
-    public Users findUserById(long id) throws ResourceNotFoundException {
+    public User findUserById(long id) throws ResourceNotFoundException {
         return userRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("No user record Found::"+id));
     }
 
@@ -61,13 +57,13 @@ public class UserService {
 
     // Save User Details.
     @Transactional
-    public Users saveUserDetails(@Valid Users users) {
+    public User saveUserDetails(@Valid User users) {
         return userRepository.save(users);
     }
 
     // Delete a user.
     @Transactional
-    public void deleteUserDetails(@Valid Users users) {
+    public void deleteUserDetails(@Valid User users) {
         userRepository.delete(users);
     }
 }

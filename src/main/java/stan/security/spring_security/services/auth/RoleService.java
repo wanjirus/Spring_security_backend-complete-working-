@@ -1,15 +1,12 @@
-package com.sunflash.sunappointment.service.auth;
-
-import com.sunflash.sunappointment.entities.auth.Role;
-import com.sunflash.sunappointment.entities.auth.RoleName;
-import com.sunflash.sunappointment.exceptions.ResourceNotFoundException;
-import com.sunflash.sunappointment.repositories.RoleRepository;
+package stan.security.spring_security.services.auth;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import stan.security.spring_security.exceptions.ResourceNotFoundException;
+import stan.security.spring_security.models.Role;
+import stan.security.spring_security.repository.RoleRepository;
 
 import java.util.List;
-import java.util.Set;
 
 @Service
 @RequiredArgsConstructor

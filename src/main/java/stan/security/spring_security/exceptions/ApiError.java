@@ -1,4 +1,4 @@
-package com.sunflash.sunappointment.exceptions;
+package stan.security.spring_security.exceptions;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;

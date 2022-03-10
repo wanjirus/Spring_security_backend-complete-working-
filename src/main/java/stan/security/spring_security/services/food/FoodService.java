@@ -1,70 +1,53 @@
-package com.sunflash.sunappointment.service.job;
+package stan.security.spring_security.services.food;
 /**
  * Author::Stanley
  * Since
  * Version 1.0.0
  */
-import com.sunflash.sunappointment.entities.auth.Users;
-import com.sunflash.sunappointment.entities.job.Jobs;
-import com.sunflash.sunappointment.entities.staff.Staffs;
-import com.sunflash.sunappointment.mapper.JobsMapper;
-import com.sunflash.sunappointment.model.JobDTO;
-import com.sunflash.sunappointment.repositories.JobRepository;
-import com.sunflash.sunappointment.service.auth.UserService;
-import com.sunflash.sunappointment.service.staff.StaffService;
-import lombok.AllArgsConstructor;
-import org.springframework.data.rest.webmvc.ResourceNotFoundException;
-import org.springframework.stereotype.Service;
 
-import javax.validation.Valid;
+import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import stan.security.spring_security.DTO.FoodDTO;
+import stan.security.spring_security.DTO.StoreDTO;
+import stan.security.spring_security.exceptions.ResourceNotFoundException;
+import stan.security.spring_security.mapper.FoodMapper;
+import stan.security.spring_security.models.FoodItem;
+import stan.security.spring_security.repository.FoodItemRepository;
+import stan.security.spring_security.services.store.StoreService;
+
 import java.util.List;
+
 @Service
 @AllArgsConstructor
-public class JobsService implements JobServiceInterface {
-private  final JobRepository jobRepository;
-private JobsMapper jobsMapper;
-private final UserService userService;
+public class FoodService implements FoodServiceInterface {
+private  final FoodItemRepository foodRepository;
 
-    public JobDTO findJobById(long id) throws  ResourceNotFoundException{
-    Jobs jobs = jobRepository.findById(id)
-            .orElseThrow(() -> new ResourceNotFoundException("No job record found with that id::" + id));
-    JobDTO jobDTO = jobsMapper.toJobDTO(jobs);
-    return jobDTO;
+private final FoodMapper foodMapper;
+private  final StoreService storeService;
+
+public FoodDTO createNewFood(long storeId, FoodDTO foodDTO) throws ResourceNotFoundException{
+    StoreDTO store = storeService.findStoreById(storeId);
+    FoodItem foodItem = constructFoodObject(foodDTO);
+    foodItem.setStore(store);
+    foodItem= foodRepository.save(foodItem);
+    return  foodMapper.toFoodDTO(foodItem);
 }
 
-public  Jobs findInternalJobById(long id) throws  ResourceNotFoundException{
-    Jobs jobs = jobRepository.findById(id)
-            .orElseThrow(() -> new ResourceNotFoundException("No Job record found with Id:: " + id));
-
-return jobs;
-}
+    @Override
+    public List<FoodDTO> findFoodByStoreId(long storeId) {
+        return null;
+    }
 
 
-public JobDTO createNewJob(long userId, JobDTO jobDTO) throws ResourceNotFoundException{
-    Users user = userService.findUserById(userId);
-    Jobs job = constructJobObject(jobDTO);
-    job.setUsers(user);
-    job = jobRepository.save(job);
-    return  jobsMapper.toJobDTO(job);
-}
-
-@Override
-    public  List<JobDTO>findJobByUserId(long userId){
-    List<Jobs> jobsList = jobRepository.findByUsersId(userId);
-    return jobsMapper.toJobDtoList(jobsList);
-}
-
-private Jobs constructJobObject(JobDTO jobDTO){
-    Jobs job =Jobs.builder()
-            .jobCategory(jobDTO.getJobCategory())
-            .jobName(jobDTO.getJobName())
-            .privateJob(jobDTO.getPrivateJob())
-            .jobCost(jobDTO.getJobCost())
-            .jobDuration(jobDTO.getJobDuration())
-            .bufferDuration(jobDTO.getBufferDuration())
-            .videoMeeting(jobDTO.getVideoMeeting())
+private FoodItem constructFoodObject(FoodDTO foodDTO){
+    FoodItem foodItem = FoodItem.builder()
+            .foodname(foodDTO.getFoodName())
+            .location(foodDTO.getLocation())
+            .quantity(foodDTO.getQuantity())
+            .price(foodDTO.getPrice())
             .build();
-    return  job;
+    return  foodItem;
 
 }
 

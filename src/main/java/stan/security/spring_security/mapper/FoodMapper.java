@@ -1,14 +1,17 @@
-package com.sunflash.sunappointment.mapper;
+package stan.security.spring_security.mapper;
 
-import com.sunflash.sunappointment.entities.job.Jobs;
-import com.sunflash.sunappointment.model.JobDTO;
 import org.mapstruct.Mapper;
+import org.springframework.context.annotation.Bean;
+import org.springframework.transaction.annotation.Transactional;
+import stan.security.spring_security.DTO.FoodDTO;
+import stan.security.spring_security.models.FoodItem;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring",  uses = UserMapper.class)
-public interface JobsMapper {
-    JobDTO toJobDTO(Jobs jobs);
+@Mapper(componentModel = "spring",  uses = StoreMapper.class)
+@Transactional
+public interface FoodMapper {
+    FoodDTO toFoodDTO(FoodItem food);
 
-    List<JobDTO> toJobDtoList(List<Jobs> jobs);
+    List<FoodDTO> toJobDtoList(List<FoodItem> jobs);
 }
