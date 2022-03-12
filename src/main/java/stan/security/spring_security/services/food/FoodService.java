@@ -6,7 +6,6 @@ package stan.security.spring_security.services.food;
  */
 
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import stan.security.spring_security.DTO.FoodDTO;
 import stan.security.spring_security.DTO.StoreDTO;
@@ -20,27 +19,33 @@ import java.util.List;
 
 @Service
 @AllArgsConstructor
+
 public class FoodService implements FoodServiceInterface {
-private  final FoodItemRepository foodRepository;
-
-private final FoodMapper foodMapper;
-private  final StoreService storeService;
-
-public FoodDTO createNewFood(long storeId, FoodDTO foodDTO) throws ResourceNotFoundException{
+    private final FoodItemRepository foodRepository;
+        private final FoodMapper foodMapper;
+        private final StoreService storeService;
+        public FoodDTO findFoodById(long id) throws ResourceNotFoundException{
+       FoodItem foodItem = foodRepository.findById(id).orElseThrow(() -> new  ResourceNotFoundException("No staff record found with Id::" + id));
+        FoodDTO foodDTO = foodMapper.toFoodDTO(foodItem);
+        return foodDTO;
+    }
+    public FoodDTO createNewFood(long storeId, FoodDTO foodDTO) throws ResourceNotFoundException{
     StoreDTO store = storeService.findStoreById(storeId);
     FoodItem foodItem = constructFoodObject(foodDTO);
     foodItem.setStore(store);
     foodItem= foodRepository.save(foodItem);
-    return  foodMapper.toFoodDTO(foodItem);
+        FoodDTO foodDTO1 = foodMapper.toFoodDTO(foodItem);
+        return foodDTO1;
 }
 
-    @Override
+
     public List<FoodDTO> findFoodByStoreId(long storeId) {
-        return null;
+        List<FoodItem> foodList = foodRepository.findByStoreId(storeId);
+        return (List<FoodDTO>) foodMapper.toFoodDTO((FoodItem) foodList);
     }
 
 
-private FoodItem constructFoodObject(FoodDTO foodDTO){
+    private FoodItem constructFoodObject(FoodDTO foodDTO){
     FoodItem foodItem = FoodItem.builder()
             .foodname(foodDTO.getFoodName())
             .location(foodDTO.getLocation())
@@ -48,7 +53,7 @@ private FoodItem constructFoodObject(FoodDTO foodDTO){
             .price(foodDTO.getPrice())
             .build();
     return  foodItem;
-
+//
 }
 
 }

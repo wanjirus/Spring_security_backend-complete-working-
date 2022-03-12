@@ -7,9 +7,10 @@ import stan.security.spring_security.models.ERole;
 import stan.security.spring_security.models.FoodItem;
 import stan.security.spring_security.models.Role;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface FoodItemRepository extends JpaRepository<FoodItem, Long> {
-
+    List<FoodItem> findByStoreId(long id);
 }

@@ -2,6 +2,7 @@ package stan.security.spring_security.services.food;
 
 import stan.security.spring_security.DTO.FoodDTO;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -11,11 +12,8 @@ import java.util.List;
  */
 public interface FoodServiceInterface {
 
-    public FoodDTO createNewFood(long staffId,  FoodDTO foodDTO);
-
-    public List<FoodDTO> findFoodByStoreId(long storeId);
-
-
-
+//    public FoodDTO createNewFood(long staffId,  FoodDTO foodDTO);
+public FoodDTO findFoodById(long storeId);
+public FoodDTO createNewFood(long foodId, @Valid FoodDTO foodDTO);
 
 }

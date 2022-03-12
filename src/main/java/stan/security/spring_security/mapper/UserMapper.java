@@ -15,7 +15,8 @@ public interface UserMapper {
         UserDTO userInfoDTO = new UserDTO();
 
         userInfoDTO.setId(users.getId());
-        userInfoDTO.setFullName(users.getFirstname() + " " + users.getSecondname());
+        userInfoDTO.setFirstname(users.getFirstname());
+        userInfoDTO.setSecondname(users.getSecondname());
         userInfoDTO.setEmail(users.getEmail());
         userInfoDTO.setUsername(users.getUsername());
         userInfoDTO.setPassword(users.getPassword());

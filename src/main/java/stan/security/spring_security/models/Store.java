@@ -10,7 +10,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Data
@@ -35,5 +34,9 @@ public class Store {
     @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true)
     @JoinColumn(name = "user_id", nullable = false, unique = true)
     private User user;
+
+    public Store(){
+
+    }
 
 }

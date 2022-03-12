@@ -10,14 +10,13 @@ import stan.security.spring_security.exceptions.ResourceNotFoundException;
 import stan.security.spring_security.services.store.StoreServiceInterface;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/store")
 
 public class StoreController {
-
-    @Autowired
     private final StoreServiceInterface storeServiceInterface;
 
 
@@ -43,4 +42,15 @@ public class StoreController {
         }
     }
 
+
+
+    @GetMapping("/all")
+    public ResponseEntity<Object> getStoreByUserId(@RequestParam Long userId) {
+        try {
+            List<StoreDTO> storeDTOs = (List<StoreDTO>) storeServiceInterface.findStoreById(userId);
+            return new ResponseEntity<>(storeDTOs, HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

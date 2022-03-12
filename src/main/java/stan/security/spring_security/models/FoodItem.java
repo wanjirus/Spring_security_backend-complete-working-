@@ -10,7 +10,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Data
@@ -41,6 +40,8 @@ public class FoodItem {
     @NotBlank
     @Size(max = 20)
     private String quantity;
+public FoodItem() {
 
+}
 
 }

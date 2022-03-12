@@ -10,21 +10,25 @@ import stan.security.spring_security.models.User;
 import stan.security.spring_security.repository.StoreRepository;
 import stan.security.spring_security.services.auth.UserService;
 
-@Service
+import java.util.List;
 
+@Service
 @AllArgsConstructor
 public class StoreService implements StoreServiceInterface{
+
+
+
     private final StoreMapper storeMapper;
 
     private final StoreRepository storeRepository;
-
-    private final UserService userService;
+    private  final UserService userService;
 
 
     public StoreDTO findStoreById(long id) throws ResourceNotFoundException {
         Store store = storeRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("No staff record found with Id::" + id));
-        return storeMapper.toStoreDto(store);
+
+        return (StoreDTO) storeMapper.toStoreDto(store);
     }
 
     public StoreDTO createNewStore(long userId, StoreDTO storeDTO) {
@@ -32,9 +36,16 @@ public class StoreService implements StoreServiceInterface{
         Store store = constructStoreObject(storeDTO);
         store.setUser(user);
         store = storeRepository.save(store);
-        return storeMapper.toStoreDto(store);
+        return (StoreDTO) storeMapper.toStoreDto(store);
     }
 
+    @Override
+    public StoreDTO findStoreByUserId(long userId) {
+        List<Store> storeList = storeRepository.findByUser(userId);
+        return (StoreDTO) storeMapper.toStoreDto((Store) storeList);
+    }
+
+    //
     private Store constructStoreObject(StoreDTO storeDTO) {
         return Store.builder().name(storeDTO.getName())
                 .location(storeDTO.getLocation())

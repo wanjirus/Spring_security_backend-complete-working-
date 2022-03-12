@@ -32,5 +32,14 @@ public class FoodItemController {
             return  new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    @GetMapping("/{storeId}")
+    public ResponseEntity<Object>getFoodById(@PathVariable(value = "storeId") Long storeId) {
+        try {
+            FoodDTO foodDTO=foodServiceInterface.findFoodById(storeId);
+            return new ResponseEntity<>(foodDTO, HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
 

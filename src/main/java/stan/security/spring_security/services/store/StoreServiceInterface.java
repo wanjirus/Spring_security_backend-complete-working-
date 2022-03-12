@@ -4,6 +4,7 @@ import stan.security.spring_security.DTO.StoreDTO;
 
 public interface StoreServiceInterface {
     public StoreDTO createNewStore(long userId,  StoreDTO  storeDTO);
-    public StoreDTO findStoreById(long staffId);
+    public StoreDTO findStoreByUserId(long userId);
+    public StoreDTO findStoreById(long storeId);
 
 }

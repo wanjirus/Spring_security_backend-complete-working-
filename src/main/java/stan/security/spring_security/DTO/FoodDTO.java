@@ -4,8 +4,6 @@ import lombok.Data;
 
 @Data
 public class FoodDTO {
-    private Long id;
-    private StoreDTO storeDTO;
     private String foodName;
     private String location;
     private String price;
