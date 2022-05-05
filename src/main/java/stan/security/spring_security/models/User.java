@@ -1,6 +1,8 @@
 package stan.security.spring_security.models;
 
 import lombok.Data;
+import org.hibernate.Hibernate;
+import stan.security.spring_security.audit.Auditable;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -18,13 +20,11 @@ import java.util.Set;
                 @UniqueConstraint(columnNames = "email")
         })
 
-public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class User extends Auditable {
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
-    private Store store;
+
+//    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
+//    private Store store;
 
     @NotBlank
     @Size(max = 20)
@@ -66,4 +66,16 @@ public class User {
         this.password = password;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        User user = (User) o;
+        return getId() != null && Objects.equals(getId(), user.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }
