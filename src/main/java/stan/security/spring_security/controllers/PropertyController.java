@@ -19,8 +19,8 @@ public class PropertyController {
     private final PropertyServiceInterface propertyServiceInterface;
 
 
-    @PostMapping("/{userId}")
-    public ResponseEntity<Object> createProperty(@PathVariable(value = "userId") Long userId,
+    @PostMapping()
+    public ResponseEntity<Object> createProperty(@RequestParam Long userId,
                                                  @Valid @RequestBody PropertyDTO propertyDTO) throws ResourceNotFoundException {
         try {
             PropertyDTO returnedPropertyDTO = propertyServiceInterface.createNewProperty(userId,propertyDTO);

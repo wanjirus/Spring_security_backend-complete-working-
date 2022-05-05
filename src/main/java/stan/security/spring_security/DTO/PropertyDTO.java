@@ -9,4 +9,5 @@ public class PropertyDTO {
     private Double price;
     private String description;
     private String contactInfo;
+    private String phoneNumber;
 }

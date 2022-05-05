@@ -18,9 +18,13 @@ import java.util.Objects;
 @Setter
 @ToString
 //@RequiredArgsConstructor
-@Table(	name = "property", uniqueConstraints = {@UniqueConstraint(columnNames = {
- "contact_Info"
-})})
+@Table(	name = "property"
+//        uniqueConstraints = {
+//        @UniqueConstraint(columnNames = {
+// "contact_Info"
+//}
+//)}
+)
 
 public class Property extends Auditable {
     @ManyToOne
@@ -38,11 +42,15 @@ public class Property extends Auditable {
 
     @NotBlank
     @Size(max = 20)
+    private String phoneNumber;
+
+    @NotBlank
+    @Size(max = 20)
     private Double price;
 
     @NotBlank
     @Size(max = 20)
-    @Column(name = "contact_info")
+//    @Column(name = "contact_info")
     private String contactInfo;
 
     @NotBlank
