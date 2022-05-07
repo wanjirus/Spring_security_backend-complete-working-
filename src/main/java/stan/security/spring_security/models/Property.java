@@ -12,18 +12,19 @@ import java.util.Objects;
 
 @Builder
 @NoArgsConstructor
+@Data
 @AllArgsConstructor
 @Entity
 @Getter
 @Setter
 @ToString
 //@RequiredArgsConstructor
-@Table(	name = "property"
-//        uniqueConstraints = {
-//        @UniqueConstraint(columnNames = {
-// "contact_Info"
-//}
-//)}
+@Table(	name = "property",
+        uniqueConstraints = {
+        @UniqueConstraint(columnNames = {
+ "contact_Info"
+}
+)}
 )
 
 public class Property extends Auditable {
@@ -50,7 +51,7 @@ public class Property extends Auditable {
 
     @NotBlank
     @Size(max = 20)
-//    @Column(name = "contact_info")
+    @Column(name = "contact_info")
     private String contactInfo;
 
     @NotBlank

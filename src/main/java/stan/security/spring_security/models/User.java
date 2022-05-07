@@ -23,8 +23,8 @@ import java.util.Set;
 public class User extends Auditable {
 
 
-//    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
-//    private Store store;
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
+    private ImageModel imageModel;
 
     @NotBlank
     @Size(max = 20)
