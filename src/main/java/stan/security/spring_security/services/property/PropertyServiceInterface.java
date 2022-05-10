@@ -13,6 +13,7 @@ import java.util.List;
 public interface PropertyServiceInterface {
     public PropertyDTO createNewProperty(long userId, PropertyDTO propertyDTO);
     public List<PropertyDTO> findPropertyByUserId(long userId);
+    public List<PropertyDTO>findAll();
     public PropertyDTO findPropertyById(long storeId);
     public Boolean existByUserId(Long UserId);
 

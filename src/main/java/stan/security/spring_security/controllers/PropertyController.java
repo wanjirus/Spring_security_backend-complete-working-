@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import stan.security.spring_security.DTO.PropertyDTO;
 import stan.security.spring_security.exceptions.ResourceNotFoundException;
+import stan.security.spring_security.repository.PropertyRepository;
 import stan.security.spring_security.services.property.PropertyServiceInterface;
 
 import javax.validation.Valid;
@@ -18,6 +19,15 @@ import java.util.List;
 public class PropertyController {
     private final PropertyServiceInterface propertyServiceInterface;
 
+    @GetMapping("/properties")
+    public ResponseEntity <Object> getAllProperties() {
+        try {
+            List<PropertyDTO> propertyDTO = propertyServiceInterface.findAll();
+            return new ResponseEntity<>(propertyDTO, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
     @PostMapping()
     public ResponseEntity<Object> createProperty(@RequestParam Long userId,
@@ -28,8 +38,6 @@ public class PropertyController {
         }catch (Exception e){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
-
     }
 
     @GetMapping()

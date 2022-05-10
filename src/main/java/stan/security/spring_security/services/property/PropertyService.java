@@ -6,6 +6,7 @@ package stan.security.spring_security.services.property;
  */
 
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.method.P;
 import org.springframework.stereotype.Service;
 import stan.security.spring_security.DTO.PropertyDTO;
 import stan.security.spring_security.exceptions.ResourceNotFoundException;
@@ -25,6 +26,7 @@ public class PropertyService implements PropertyServiceInterface {
     private  final UserService userService;
 
 
+
     public PropertyDTO findPropertyById(long id) throws ResourceNotFoundException {
      Property property = propertyRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("No staff record found with Id::" + id));
@@ -38,6 +40,11 @@ public class PropertyService implements PropertyServiceInterface {
         property.setUser(user);
         property = propertyRepository.save(property);
         return propertyMapper.toPropertyDto(property);
+    }
+
+    public List<PropertyDTO> findAll(){
+        List<Property> allProperties = propertyRepository.findAll();
+        return propertyMapper.toPropertyDtoList(allProperties);
     }
 
     @Override
