@@ -6,7 +6,6 @@ package stan.security.spring_security.services.property;
  */
 
 import lombok.AllArgsConstructor;
-import org.springframework.security.access.method.P;
 import org.springframework.stereotype.Service;
 import stan.security.spring_security.DTO.PropertyDTO;
 import stan.security.spring_security.exceptions.ResourceNotFoundException;
@@ -16,6 +15,7 @@ import stan.security.spring_security.models.User;
 import stan.security.spring_security.repository.PropertyRepository;
 import stan.security.spring_security.services.auth.UserService;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -41,6 +41,41 @@ public class PropertyService implements PropertyServiceInterface {
         property = propertyRepository.save(property);
         return propertyMapper.toPropertyDto(property);
     }
+
+    public HashMap<String, Boolean> deleteProperty(long id) throws ResourceNotFoundException{
+        Property property = propertyRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("No staff record found with Id::" + id));
+        propertyRepository.delete(property);
+        HashMap<String, Boolean> response = new HashMap<>();
+        response.put("deleted", Boolean.TRUE);
+        return response;
+    }
+
+//    @Override
+//    public PropertyDTO updateProperty(long id, PropertyDTO propertyDTO){
+//
+//        Optional<Property> property = propertyRepository.findById(id);
+//        propertyDTO.setName(propertyDTO.getName());
+////
+////        property.setName(propertyDTO.getName());
+////        property.setLocation(propertyDTO.getLocation());
+////        property.setPhoneNumber(propertyDTO.getPhoneNumber());
+////        property.setPrice(propertyDTO.getPrice());
+////        property.setContactInfo(propertyDTO.getContactInfo());
+////        property.setDescription(propertyDTO.getDescription());
+//        Property updateProperty = propertyRepository.save(property)
+//        return propertyMapper.toPropertyDto(updateProperty);
+//
+//    }
+//    public ResponseEntity<HashMap<String, Boolean>> deleteProperty (long id){
+//        Optional<Property> property = propertyRepository.findById(id);
+//        propertyRepository.delete(property);
+//        HashMap<String, Boolean> response = new HashMap<>();
+//        response.put("deleted", Boolean.TRUE);
+//        return ResponseEntity.ok(response);
+//    }
+
+
 
     public List<PropertyDTO> findAll(){
         List<Property> allProperties = propertyRepository.findAll();

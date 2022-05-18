@@ -10,7 +10,7 @@ import java.util.Objects;
 @MappedSuperclass
 public abstract class Identifiable {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     public Long getId() {

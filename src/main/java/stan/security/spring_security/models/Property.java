@@ -42,6 +42,9 @@ public class Property extends Auditable {
     private String location;
 
     @NotBlank
+    private Boolean deleted;
+
+    @NotBlank
     @Size(max = 20)
     private String phoneNumber;
 
