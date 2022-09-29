@@ -32,7 +32,7 @@ public class User extends Auditable {
 
     @NotBlank
     @Size(max = 20)
-    private String secondname;
+    private String secondName;
 
 
     @NotBlank
@@ -58,9 +58,9 @@ public class User extends Auditable {
     public User() {
     }
 
-    public User(String firstname, String secondname, String username, String email, String password) {
+    public User(String firstname, String secondName, String username, String email, String password) {
         this.firstname = firstname;
-        this.secondname = secondname;
+        this.secondName = secondName;
         this.username = username;
         this.email = email;
         this.password = password;

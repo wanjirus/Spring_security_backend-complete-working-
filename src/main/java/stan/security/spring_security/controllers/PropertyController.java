@@ -44,6 +44,7 @@ public class PropertyController {
             property.setContactInfo(propertyDTO.getContactInfo());
             property.setDescription(property.getDescription());
             property.setPrice(propertyDTO.getPrice());
+            property.setStatus(propertyDTO.getStatus());
             property.setPhoneNumber(propertyDTO.getPhoneNumber());
             property.setLocation(propertyDTO.getLocation());
             Property property1 = propertyRepository.save(property);

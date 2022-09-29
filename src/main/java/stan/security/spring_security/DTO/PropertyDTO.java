@@ -7,6 +7,7 @@ public class PropertyDTO {
     private Long id;
     private String name;
     private String location;
+    private String status;
     private Double price;
     private String description;
     private String contactInfo;

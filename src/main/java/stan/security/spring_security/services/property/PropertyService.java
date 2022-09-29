@@ -103,6 +103,7 @@ public class PropertyService implements PropertyServiceInterface {
         return Property.builder().name(propertyDTO.getName())
                 .location(propertyDTO.getLocation())
                 .price(propertyDTO.getPrice())
+                .status(propertyDTO.getStatus())
                 .phoneNumber(propertyDTO.getPhoneNumber())
                 .contactInfo(propertyDTO.getContactInfo())
                 .description(propertyDTO.getDescription())

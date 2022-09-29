@@ -12,7 +12,7 @@ import java.util.Objects;
 
 @Builder
 @NoArgsConstructor
-@Data
+//@RequiredArgsConstructor
 @AllArgsConstructor
 @Entity
 @Getter
@@ -42,7 +42,7 @@ public class Property extends Auditable {
     private String location;
 
     @NotBlank
-    private Boolean deleted;
+    private String status;
 
     @NotBlank
     @Size(max = 20)
@@ -73,5 +73,4 @@ public class Property extends Auditable {
     public int hashCode() {
         return getClass().hashCode();
     }
-
 }
