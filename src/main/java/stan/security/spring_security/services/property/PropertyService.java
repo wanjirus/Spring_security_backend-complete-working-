@@ -1,22 +1,17 @@
 package stan.security.spring_security.services.property;
-/**
- * Author::Stanley
- * Since
- * Version 1.0.0
- */
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import stan.security.spring_security.DTO.PropertyDTO;
 import stan.security.spring_security.exceptions.ResourceNotFoundException;
 import stan.security.spring_security.mapper.PropertyMapper;
-import stan.security.spring_security.models.Property;
-import stan.security.spring_security.models.User;
+import stan.security.spring_security.models.*;
+import stan.security.spring_security.repository.CategoriesRepository;
 import stan.security.spring_security.repository.PropertyRepository;
+import stan.security.spring_security.repository.TypeRepository;
 import stan.security.spring_security.services.auth.UserService;
 
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 @Service
 @AllArgsConstructor
@@ -24,8 +19,8 @@ public class PropertyService implements PropertyServiceInterface {
     private final PropertyRepository propertyRepository;
     private final PropertyMapper propertyMapper;
     private  final UserService userService;
-
-
+    private final CategoriesRepository categoriesRepository;
+    private final TypeRepository typeRepository;
 
     public PropertyDTO findPropertyById(long id) throws ResourceNotFoundException {
      Property property = propertyRepository.findById(id)
@@ -34,9 +29,70 @@ public class PropertyService implements PropertyServiceInterface {
         return propertyMapper.toPropertyDto(property);
     }
 
+
     public PropertyDTO createNewProperty(long userId, PropertyDTO propertyDTO) {
         User user = userService.findUserById(userId);
+
         Property property = constructStoreObject(propertyDTO);
+
+        Set<Object> strCategory = propertyDTO.getCategories();
+        Set<Category> categories = new HashSet<>();
+
+        if(strCategory == null){
+            Category constructCategory = categoriesRepository.findByName(ECategory.CONSTRUCT)
+                    .orElseThrow(() -> new RuntimeException("Error: No category found with name::" + ECategory.CONSTRUCT));
+            categories.add(constructCategory);
+        }else {
+          strCategory.forEach(category -> {
+              if ("farming".equals(category)) {
+                  Category farmingCategory = categoriesRepository.findByName(ECategory.FARMING)
+                          .orElseThrow(() -> new RuntimeException("Error: No category found with name:"));
+                  categories.add(farmingCategory);
+              } else if ("estate".equals(category)) {
+                  Category estateCategory = categoriesRepository.findByName(ECategory.ESTATE)
+                          .orElseThrow(() -> new RuntimeException("Error: No category found "));
+                  categories.add(estateCategory);
+              } else if ("bill_board".equals(category)) {
+                  Category B_boardCategory = categoriesRepository.findByName(ECategory.BILLBOARD)
+                          .orElseThrow(() -> new RuntimeException("Error: No category found with name:"));
+                  categories.add(B_boardCategory);
+              } else if ("commercial".equals(category)) {
+                  Category commercial_C = categoriesRepository.findByName(ECategory.COMMERCIAL)
+                          .orElseThrow(() -> new RuntimeException("Error: No category found with name:"));
+                  categories.add(commercial_C);
+              } else {
+                  Category constructCategory = categoriesRepository.findByName(ECategory.CONSTRUCT)
+                          .orElseThrow(() -> new RuntimeException("Error: No category found with name "));
+                  categories.add(constructCategory);
+              }
+          });
+        }
+        property.setCategories(categories);
+        Set<Object> strType = propertyDTO.getTypes();
+        Set<Type> types = new HashSet<>();
+
+        if(strType == null){
+            Type typeSale = typeRepository.findByName(EType.SALE)
+                    .orElseThrow(() -> new RuntimeException("Error: No category found with name::" + EType.SALE));
+            types.add(typeSale);
+        }else {
+            strType.forEach(type -> {
+                if ("sale".equals(type)) {
+                    Type typeLease = typeRepository.findByName(EType.LEASE)
+                            .orElseThrow(() -> new RuntimeException("Error: No category found with name:"));
+                    types.add(typeLease);
+                } else if ("rent".equals(type)) {
+                    Type typeRent = typeRepository.findByName(EType.RENT)
+                            .orElseThrow(() -> new RuntimeException("Error: No category found "));
+                    types.add(typeRent);
+                } else {
+                    Type typeSale = typeRepository.findByName(EType.SALE)
+                            .orElseThrow(() -> new RuntimeException("Error: No category found with name "));
+                    types.add(typeSale);
+                }
+            });
+        }
+        property.setTypes(types);
         property.setUser(user);
         property = propertyRepository.save(property);
         return propertyMapper.toPropertyDto(property);
@@ -88,6 +144,23 @@ public class PropertyService implements PropertyServiceInterface {
         return propertyMapper.toPropertyDtoList(propertyList);
     }
 
+//    @Override
+//    public List<PropertyDTO> findPropertyByType(Long typeId) {
+//        Optional<Type> type = typeRepository.findByName(EType.SALE);
+////        List<Property> propertyList = propertyRepository.findByTypeSale(type);
+////        return propertyMapper.toPropertyDto(propertyList);
+////    }
+//
+//
+//    @Override
+//    public List<PropertyDTO> findPropertyByType(long typeId) {
+//        List<Property> propertyList = propertyRepository.findByUserId(userId);
+//        return null;
+//    }
+//
+
+
+
 
     @Override
     public Boolean existByUserId(Long UserId) {
@@ -104,8 +177,10 @@ public class PropertyService implements PropertyServiceInterface {
                 .location(propertyDTO.getLocation())
                 .price(propertyDTO.getPrice())
                 .status(propertyDTO.getStatus())
-                .phoneNumber(propertyDTO.getPhoneNumber())
+                .dimensions(propertyDTO.getDimensions())
+//                .phoneNumber(propertyDTO.getPhoneNumber())
                 .contactInfo(propertyDTO.getContactInfo())
+
                 .description(propertyDTO.getDescription())
                 .build();
     }

@@ -1,6 +1,6 @@
 package stan.security.spring_security.models;
 
-import lombok.Data;
+import lombok.*;
 import org.hibernate.Hibernate;
 import stan.security.spring_security.audit.Auditable;
 
@@ -13,7 +13,10 @@ import java.util.Objects;
 import java.util.Set;
 
 @Entity
-@Data
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
 @Table(	name = "users",
         uniqueConstraints = {
                 @UniqueConstraint(columnNames = "username"),
@@ -23,8 +26,8 @@ import java.util.Set;
 public class User extends Auditable {
 
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
-    private ImageModel imageModel;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
+    private UserAvatar userAvatar;
 
     @NotBlank
     @Size(max = 20)
@@ -53,10 +56,8 @@ public class User extends Auditable {
     @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
+    @ToString.Exclude
     private Set<Role> roles = new HashSet<>();
-
-    public User() {
-    }
 
     public User(String firstname, String secondName, String username, String email, String password) {
         this.firstname = firstname;

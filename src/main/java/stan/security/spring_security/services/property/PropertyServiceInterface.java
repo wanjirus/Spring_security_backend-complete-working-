@@ -17,9 +17,15 @@ public interface PropertyServiceInterface {
     HashMap<String, Boolean> deleteProperty(long id);
 
     List<PropertyDTO> findPropertyByUserId(long userId);
+
+//    List<PropertyDTO>findPropertyByCategorySale();
     List<PropertyDTO>findAll();
     PropertyDTO findPropertyById(long UserId);
+
+//    List<PropertyDTO> findPropertyByTypeSale();
+
     Boolean existByUserId(Long UserId);
+
 
 //    PropertyDTO findById(long id);
 }
